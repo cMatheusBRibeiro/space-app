@@ -60,7 +60,7 @@ const Operadores = styled.div`
 const Imagem = ({ foto }) => {
     return (
         <FigureEstilizada>
-            <img src={foto.path}/>
+            <img src={foto.path} alt={foto.alt}/>
             <figcaption>
                 <h3>{foto.titulo}</h3>
                 <footer>
