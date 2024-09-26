@@ -19,7 +19,7 @@ const TituloEstilizado = styled.h1`
     line-height: 48px;
     color: #FFFFFF;
     max-width: 300px;
-    padding: 0 64px;
+    margin-left: 64px;
 `;
 
 const Banner = ({ texto, backgroundImage }) => {
