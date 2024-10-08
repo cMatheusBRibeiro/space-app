@@ -1,5 +1,6 @@
 import { FaExpandAlt, FaRegHeart } from "react-icons/fa";
 import styled from "styled-components";
+import BotaoIcone from "../../BotaoIcone";
 
 const FigureEstilizada = styled.figure`
     width: ${(props) => props.$expandida ? "90%" : "460px"};
@@ -49,18 +50,9 @@ const Operadores = styled.div`
     gap: 20px;
 `;
 
-const BotaoIcone = styled.button`
-    background-color: transparent;
-    color: #FFFFFF;
-    border: none;
-    padding: 2px;
-    height: auto;
-    cursor: pointer;
-`;
-
 const Imagem = ({ foto, expandida = false, aoZoomSolicitado }) => {
     return (
-        <FigureEstilizada>
+        <FigureEstilizada $expandida={expandida}>
             <img src={foto.path} alt={foto.alt}/>
             <figcaption>
                 <h3>{foto.titulo}</h3>
@@ -68,7 +60,7 @@ const Imagem = ({ foto, expandida = false, aoZoomSolicitado }) => {
                     <h4>Fonte: {foto.fonte}</h4>
                     <Operadores>
                         <BotaoIcone>{<FaRegHeart size={25}/>}</BotaoIcone>
-                        {!expandida && <BotaoIcone onClick={() => aoZoomSolicitado(foto)}>
+                        {!expandida && <BotaoIcone aoClicar={() => aoZoomSolicitado(foto)}>
                             {<FaExpandAlt size={25}/>}
                         </BotaoIcone>}
                     </Operadores>
