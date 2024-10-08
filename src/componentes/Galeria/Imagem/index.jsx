@@ -57,7 +57,7 @@ const Operadores = styled.div`
     }
 `;
 
-const Imagem = ({ foto, aoZoomSolicitado }) => {
+const Imagem = ({ foto, expandida = false, aoZoomSolicitado }) => {
     return (
         <FigureEstilizada>
             <img src={foto.path} alt={foto.alt}/>
@@ -67,7 +67,9 @@ const Imagem = ({ foto, aoZoomSolicitado }) => {
                     <h4>Fonte: {foto.fonte}</h4>
                     <Operadores>
                         <button>{<FaRegHeart size={25}/>}</button>
-                        <button onClick={() => aoZoomSolicitado(foto)}>{<FaExpandAlt size={25}/>}</button>
+                        {!expandida && <button onClick={() => aoZoomSolicitado(foto)}>
+                            {<FaExpandAlt size={25}/>}
+                        </button>}
                     </Operadores>
                 </footer>
             </figcaption>
