@@ -22,9 +22,6 @@ const ModalZoom = ({ foto }) => {
                 <Overlay />
                 <DialogEstilizado open={!!foto}>
                     <Imagem foto={foto} expandida={true}/>
-                    <form method="dialog">
-                        <button type="submit">OK</button>
-                    </form>
                 </DialogEstilizado>
             </>}
         </>

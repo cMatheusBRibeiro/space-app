@@ -35,26 +35,27 @@ const FigureEstilizada = styled.figure`
             margin: 0;
             font-size: 16px;
         }
-
-        footer {
-            display: flex;
-            justify-content: space-between;
-            font-size: 16px;
-        }
     }
+`;
+
+const Rodape = styled.footer`
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
 `;
 
 const Operadores = styled.div`
     display: flex;
     gap: 20px;
+`;
 
-    button {
-        background-color: transparent;
-        color: #FFFFFF;
-        border: none;
-        padding: 2px;
-        height: auto;
-    }
+const BotaoIcone = styled.button`
+    background-color: transparent;
+    color: #FFFFFF;
+    border: none;
+    padding: 2px;
+    height: auto;
+    cursor: pointer;
 `;
 
 const Imagem = ({ foto, expandida = false, aoZoomSolicitado }) => {
@@ -63,15 +64,15 @@ const Imagem = ({ foto, expandida = false, aoZoomSolicitado }) => {
             <img src={foto.path} alt={foto.alt}/>
             <figcaption>
                 <h3>{foto.titulo}</h3>
-                <footer>
+                <Rodape>
                     <h4>Fonte: {foto.fonte}</h4>
                     <Operadores>
-                        <button>{<FaRegHeart size={25}/>}</button>
-                        {!expandida && <button onClick={() => aoZoomSolicitado(foto)}>
+                        <BotaoIcone>{<FaRegHeart size={25}/>}</BotaoIcone>
+                        {!expandida && <BotaoIcone onClick={() => aoZoomSolicitado(foto)}>
                             {<FaExpandAlt size={25}/>}
-                        </button>}
+                        </BotaoIcone>}
                     </Operadores>
-                </footer>
+                </Rodape>
             </figcaption>
         </FigureEstilizada>
     );
