@@ -8,7 +8,8 @@ import imagemBanner from "./assets/banner.png";
 import Galeria from "./componentes/Galeria";
 import ConteudoGaleria from "./componentes/ConteudoGaleria";
 import fotos from "./fotos.json";
-import { useState } from "react";
+import tags from "./componentes/Galeria/Tags/tags.json";
+import { useEffect, useState } from "react";
 import ModalZoom from "./componentes/ModalZoom";
 
 const FundoGradiente = styled.div`
@@ -30,8 +31,60 @@ const MainContainer = styled.main`
 `;
 
 const App = () => {
-    const [fotosDaGaleria, setFotosDaGaleria] = useState(fotos);
     const [fotoSelecionada, setFotoSelecionada] = useState(null);
+    const [fotosDaGaleria, setFotosDaGaleria] = useState(fotos);
+    const [fotosDaGaleriaFiltradas, setFotosDaGaleriaFiltradas] = useState(fotos);
+    const [tagsSelecionadas, setTagsSelecionadas] = useState([]);
+
+    const aoAlternarFavorito = (foto) => {
+        foto.favorita = !foto.favorita;
+
+        if (fotoSelecionada) {
+            setFotoSelecionada(foto);
+        }
+
+        setFotosDaGaleria(fotosDaGaleria.map((fotoDaGaleria) => {
+            if (fotoDaGaleria.id === foto.id) {
+                return foto;
+            }
+            return fotoDaGaleria;
+        }));
+    }
+
+    const aoAlternarSelecaoDeTag = (tag) => {
+        if (tag === 0) {
+            if (tagsSelecionadas.length === tags.length) {
+                setTagsSelecionadas([]);
+                return;
+            }
+            setTagsSelecionadas(tags.map((t) => t.id));
+            return;
+        }
+        if (tagsSelecionadas.includes(tag)) {
+            setTagsSelecionadas(tagsSelecionadas.filter((tagSelecionada) => tagSelecionada !== tag));
+        } else {
+            setTagsSelecionadas([...tagsSelecionadas, tag]);
+        }
+    }
+
+    useEffect(() => {
+        if (tagsSelecionadas.length === 0) {
+            setFotosDaGaleriaFiltradas(fotosDaGaleria);
+            return;
+        }
+        setFotosDaGaleriaFiltradas(fotosDaGaleria.filter((foto) => tagsSelecionadas.includes(foto.tagId)));
+    }, [fotosDaGaleria, tagsSelecionadas]);
+
+    useEffect(() => {
+        if ((tagsSelecionadas.length === tags.length - 1) && (!tagsSelecionadas.includes(0))) {
+            setTagsSelecionadas(tags.map((t) => t.id));
+            return;
+        }
+        if ((tagsSelecionadas.length < tags.length) && (tagsSelecionadas.includes(0))) {
+            setTagsSelecionadas(tagsSelecionadas.filter((t) => t !== 0));
+            return;
+        }
+    }, [tagsSelecionadas]);
 
     return (
         <FundoGradiente>
@@ -46,13 +99,20 @@ const App = () => {
                             backgroundImage={imagemBanner}
                         />
                         <Galeria
-                            fotos={fotosDaGaleria}
+                            fotos={fotosDaGaleriaFiltradas}
+                            tagsSelecionadas={tagsSelecionadas}
+                            aoAlternarFavorito={aoAlternarFavorito}
                             aoFotoSelecionada={foto => setFotoSelecionada(foto)}
+                            aoAlternarSelecaoDeTag={aoAlternarSelecaoDeTag}
                         />
                     </ConteudoGaleria>
                 </MainContainer>
             </AppContainer>
-            <ModalZoom foto={fotoSelecionada} aoFechar={() => setFotoSelecionada(null)} />
+            <ModalZoom
+                foto={fotoSelecionada}
+                aoFechar={() => setFotoSelecionada(null)}
+                aoAlternarFavorito={aoAlternarFavorito}
+            />
         </FundoGradiente>
     );
 }

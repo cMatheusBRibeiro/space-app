@@ -1,4 +1,4 @@
-import { FaExpandAlt, FaRegHeart } from "react-icons/fa";
+import { FaExpandAlt, FaRegHeart, FaHeart } from "react-icons/fa";
 import styled from "styled-components";
 import BotaoIcone from "../../BotaoIcone";
 
@@ -50,7 +50,7 @@ const Operadores = styled.div`
     gap: 20px;
 `;
 
-const Imagem = ({ foto, expandida = false, aoZoomSolicitado }) => {
+const Imagem = ({ foto, expandida = false, aoZoomSolicitado, aoAlternarFavorito }) => {
     return (
         <FigureEstilizada $expandida={expandida}>
             <img src={foto.path} alt={foto.alt}/>
@@ -59,7 +59,13 @@ const Imagem = ({ foto, expandida = false, aoZoomSolicitado }) => {
                 <Rodape>
                     <h4>Fonte: {foto.fonte}</h4>
                     <Operadores>
-                        <BotaoIcone>{<FaRegHeart size={25}/>}</BotaoIcone>
+                        <BotaoIcone aoClicar={() => aoAlternarFavorito(foto)}>
+                            {
+                                foto.favorita
+                                    ? <FaHeart size={25}/>
+                                    : <FaRegHeart size={25}/>
+                            }
+                        </BotaoIcone>
                         {!expandida && <BotaoIcone aoClicar={() => aoZoomSolicitado(foto)}>
                             {<FaExpandAlt size={25}/>}
                         </BotaoIcone>}

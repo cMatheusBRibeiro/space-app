@@ -24,6 +24,7 @@ const Tag = styled.button`
     padding: 12px;
     box-sizing: border-box;
     border: 2px solid transparent;
+    border-color: ${(props) => props.$ativo ? "#C98CF1" : ""};
     
     &:hover {
         border-color: #C98CF1;
@@ -36,18 +37,24 @@ const Div = styled.div`
     justify-content: end;
 `;
 
-const Tags = () => {
-    const tagAtiva = 1;
-
+const Tags = ({ aoAlternarSelecaoDeTag, tagsSelecionadas = [] }) => {
     const isTagAtiva = (id) => {
-        return id === tagAtiva;
+        return tagsSelecionadas.includes(id);
     }
 
     return (
         <TagsContainer>
             <TagTitulo>Busque por tags:</TagTitulo>
             <Div>
-                {tags.map(tag => <Tag key={tag.id} $ativo={isTagAtiva(tag.id)}>{tag.titulo}</Tag>)}
+                {tags.map(tag => 
+                    <Tag
+                        key={tag.id}
+                        $ativo={isTagAtiva(tag.id)}
+                        onClick={() => aoAlternarSelecaoDeTag(tag.id)}
+                    >
+                        {tag.titulo}
+                    </Tag>
+                )}
             </Div>
         </TagsContainer>
     );
