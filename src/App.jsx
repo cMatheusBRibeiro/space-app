@@ -74,16 +74,12 @@ const App = () => {
     }
 
     useEffect(() => {
-        let fotosFiltradasPelasTags = fotosDaGaleria;
-        
-        if (tagsSelecionadas.length > 0) {
-            fotosFiltradasPelasTags = fotosDaGaleria.filter((foto) => tagsSelecionadas.includes(foto.tagId));
-        }
-        const regexFiltro = new RegExp(filtroPorTexto, "i");
-        const fotosFiltradasPorTextoETags = fotosFiltradasPelasTags.filter((foto) => {
-            return regexFiltro.exec(foto.titulo) || regexFiltro.exec(foto.fonte);
+        const fotosFiltradas = fotosDaGaleria.filter((foto) => {
+            const filtroPorTag = tagsSelecionadas.length === 0 || tagsSelecionadas.includes(foto.tagId);
+            const filtroPorTitulo = !filtroPorTexto || foto.titulo.toLowerCase().includes(filtroPorTexto.toLowerCase());
+            return filtroPorTag && filtroPorTitulo;
         });
-        setFotosDaGaleriaFiltradas(fotosFiltradasPorTextoETags);
+        setFotosDaGaleriaFiltradas(fotosFiltradas);
     }, [fotosDaGaleria, tagsSelecionadas, filtroPorTexto]);
 
     useEffect(() => {
