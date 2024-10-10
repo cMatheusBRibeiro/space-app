@@ -46,10 +46,7 @@ const App = () => {
         }
 
         setFotosDaGaleria(fotosDaGaleria.map((fotoDaGaleria) => {
-            if (fotoDaGaleria.id === foto.id) {
-                return foto;
-            }
-            return fotoDaGaleria;
+            return fotoDaGaleria.id === foto.id ? foto : fotoDaGaleria;
         }));
     }
 
