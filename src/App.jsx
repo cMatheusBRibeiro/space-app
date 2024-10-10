@@ -35,6 +35,7 @@ const App = () => {
     const [fotosDaGaleria, setFotosDaGaleria] = useState(fotos);
     const [fotosDaGaleriaFiltradas, setFotosDaGaleriaFiltradas] = useState(fotos);
     const [tagsSelecionadas, setTagsSelecionadas] = useState([]);
+    const [filtroPorTexto, setFiltroPorTexto] = useState("");
 
     const aoAlternarFavorito = (foto) => {
         foto.favorita = !foto.favorita;
@@ -67,13 +68,22 @@ const App = () => {
         }
     }
 
+    const aoDigitarFiltro = (campoFiltro) => {
+        setFiltroPorTexto(campoFiltro.target.value);
+    }
+
     useEffect(() => {
-        if (tagsSelecionadas.length === 0) {
-            setFotosDaGaleriaFiltradas(fotosDaGaleria);
-            return;
+        let fotosFiltradasPelasTags = fotosDaGaleria;
+        
+        if (tagsSelecionadas.length > 0) {
+            fotosFiltradasPelasTags = fotosDaGaleria.filter((foto) => tagsSelecionadas.includes(foto.tagId));
         }
-        setFotosDaGaleriaFiltradas(fotosDaGaleria.filter((foto) => tagsSelecionadas.includes(foto.tagId)));
-    }, [fotosDaGaleria, tagsSelecionadas]);
+        const regexFiltro = new RegExp(filtroPorTexto, "i");
+        const fotosFiltradasPorTextoETags = fotosFiltradasPelasTags.filter((foto) => {
+            return regexFiltro.exec(foto.titulo) || regexFiltro.exec(foto.fonte);
+        });
+        setFotosDaGaleriaFiltradas(fotosFiltradasPorTextoETags);
+    }, [fotosDaGaleria, tagsSelecionadas, filtroPorTexto]);
 
     useEffect(() => {
         if ((tagsSelecionadas.length === tags.length - 1) && (!tagsSelecionadas.includes(0))) {
@@ -90,7 +100,7 @@ const App = () => {
         <FundoGradiente>
             <EstilosGlobais />
             <AppContainer>
-                <Cabecalho />
+                <Cabecalho aoDigitarFiltro={aoDigitarFiltro} />
                 <MainContainer>
                     <BarraLateral />
                     <ConteudoGaleria>

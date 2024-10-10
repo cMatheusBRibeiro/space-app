@@ -11,11 +11,11 @@ const HeaderEstilizado = styled.header`
     }
 `;
 
-const Cabecalho = () => {
+const Cabecalho = ({ aoDigitarFiltro }) => {
     return (
         <HeaderEstilizado>
             <img src="/imagens/logo.png" alt="Logo do SpaceApp" />
-            <CampoTexto />
+            <CampoTexto onInput={aoDigitarFiltro} />
         </HeaderEstilizado>
     );
 }
