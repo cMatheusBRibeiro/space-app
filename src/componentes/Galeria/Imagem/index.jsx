@@ -1,6 +1,7 @@
 import { FaExpandAlt, FaRegHeart, FaHeart } from "react-icons/fa";
 import styled from "styled-components";
 import BotaoIcone from "../../BotaoIcone";
+import tags from "../Tags/tags.json";
 
 const FigureEstilizada = styled.figure`
     width: ${(props) => props.$expandida ? "90%" : "448px"};
@@ -8,6 +9,7 @@ const FigureEstilizada = styled.figure`
     margin: 0;
     display: flex;
     flex-direction: column;
+    position: relative;
 
     & > img {
         max-width: 100%;
@@ -50,9 +52,21 @@ const Operadores = styled.div`
     gap: 20px;
 `;
 
+const TagImagem = styled.div`
+    position: absolute;
+    padding: 5px;
+    top: 14px;
+    right: 14px;
+    background: #d9d9d940;
+    border-radius: 24px;
+    color: #FFFFFF;
+`;
+
 const Imagem = ({ foto, expandida = false, aoZoomSolicitado, aoAlternarFavorito }) => {
+    const tag = tags.find((tag) => tag.id === foto.tagId);
     return (
         <FigureEstilizada $expandida={expandida}>
+            {!expandida && <TagImagem>{tag.titulo}</TagImagem>}
             <img src={foto.path} alt={foto.alt}/>
             <figcaption>
                 <h3>{foto.titulo}</h3>
